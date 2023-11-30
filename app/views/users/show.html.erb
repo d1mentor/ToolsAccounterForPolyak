@@ -1,0 +1,81 @@
+<div class="flex mb-2">
+    <div class="w-1/1 pr-4">
+      <%= render @user %>
+    </div>
+  </div>
+
+<div class="container mx-auto p-4">
+  <div class="flex justify-between items-center mb-4">
+    <div class="font-bold text-2xl inline-flex items-left flex-col">
+    <% if current_user.admin? %>
+      <%= link_to "#{ t :edit }", edit_user_path(@user), class: 'bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded ml-2' %>
+      <%= button_to "#{ t :destroy }", user_path(@user), method: :delete, form: { data: { turbo_confirm: "#{ t :are_you_shure }" } }, class: 'bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded ml-2 mt-3' %>
+    <% end %>
+</div>
+
+  </div>
+
+  <div class="bg-white rounded-lg shadow-lg p-6 mt-3 mb-3 visible sm:invisible sm:absolute sm:z-10">
+        <h2 class="text-xl font-semibold mb-4"><%= t :this_user_tools %>:</h2>
+    <% @user.instruments.each do |instrument| %>
+    <div class="border-b-2 py-3 px-6 text-left whitespace-nowrap inline-flex items-center w-full">
+      <%= link_to "#{instrument.name}", instrument_path(instrument), class: "text-blue-500 text-xl" %>&nbsp;&nbsp;<%= image_tag(instrument.images.first.thumb.url, class: "w-16 h-16 rounded-lg") if instrument.images.first %>
+    </div><br>
+    <% end %>
+    </div>
+
+  <% if @user.instruments.size > 0 %>
+  <div class="bg-white rounded-lg shadow-lg p-6 mt-3 mb-3 invisible absolute sm:visible sm:relative sm:z-20">
+    <h2 class="text-xl font-semibold mb-4"><%= t :this_user_tools %>:</h2>
+    <table class="min-w-full table mt-3">
+  <thead>
+    <tr class="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+      <th class="py-3 px-6 text-left"><%= t :name %></th>
+      <th class="py-3 px-6 text-left"><%= t :state %></th>
+      <th class="py-3 px-6 text-center"><%= t :price %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @user.instruments.each do |instrument| %>
+      <%= render instrument %>
+    <% end %>
+    </table>
+  </div>
+  </div>
+  <% end %>
+
+  <div class="bg-white rounded-lg shadow-lg p-6 mt-3 mb-3 visible sm:invisible sm:absolute sm:z-10">
+    <h2 class="text-xl font-semibold mb-4"><%= t :acts_history %></h2>
+    <% @acts.each do |act| %>
+    <div class="border-b-2 py-3 px-6 text-left whitespace-nowrap inline-flex items-center w-full">
+      <%= image_tag(act.instrument.images.first.thumb.url, class: "w-16 h-16 rounded-lg") if act.instrument.images.first %>&nbsp;&nbsp;<%= link_to "#{act.instrument.name} - #{ act.created_at.strftime('%d.%m.%Y %H:%M') }", act_path(act), class: "text-blue-500 text-xl" %>
+    </div><br>
+    <% end %>
+    </div>
+
+  <% if @acts.size > 0 %>
+    <div class="container w-full mx-auto px-2 mt-5 invisible absolute sm:visible sm:relative sm:z-20">
+    <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+    <h2 class="text-xl font-semibold mb-4"><%= t :acts_history %></h2>
+			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+				<thead>
+					<tr>
+						<th data-priority="1"><%= t :instrument%></th>
+						<th data-priority="2"><%= t :state %></th>
+						<th data-priority="3"><%= t :user %></th>
+						<th data-priority="4"><%= t :date %></th>
+					</tr>
+				</thead>
+				<tbody>
+        <% @acts.each do |act| %>
+          <%= render act %>
+        <% end %>
+        </tbody>
+			</table>
+		</div>
+		<!--/Card-->
+	</div>
+	<!--/container-->
+</div>
+  <% end %>
+</div>

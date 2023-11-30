@@ -1,0 +1,88 @@
+<div class="max-w-md mx-auto pb-3">
+  <h1 class="font-bold text-3xl text-center mb-5"><%= t :new_act %></h1>
+
+  <div class="border rounded-lg p-5 mb-5">
+    <h2 class="font-bold text-xl mb-2"><%= t :instrument %></h2>
+
+    <div class="flex flex-col items-center mb-3">
+      <% if @instrument.images.first %>
+        <%= image_tag @instrument.images.first.thumb.url, class: "mb-3 w-full" %>
+      <% end %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-2">
+      <div>
+        <p class="font-bold"><%= t :name %>:</p>
+        <p><%= @instrument.name %></p>
+      </div>
+
+      <div>
+        <p class="font-bold"><%= t :state %>:</p>
+        <p><%= t("states.#{@instrument.state}") %></p>
+      </div>
+
+      <div>
+        <p class="font-bold"><%= t :price %>:</p>
+        <p><%= @instrument.price %> <%= @instrument.price_currency %></p>
+      </div>
+
+      <% if @instrument.acts.sort_by { |act| act.created_at }.last %>
+      <div>
+        <p class="font-bold"><%= t :state_by_last_act %>:</p>
+        <p><%= t("states.#{@instrument.acts.sort_by { |act| act.created_at }.last.intstrument_state}") %></p>
+      </div>
+      <% end %>
+    </div>
+  </div>
+
+  <%= form_with(model: @act, class: "contents") do |form| %>
+
+    <div class="mb-5 ml-3">
+      <%= form.label "#{ t :instrument_state_queston }", class: "font-bold" %>
+      <div class="mt-2">
+        <%= form.radio_button :intstrument_state, "good", checked: true %>
+        <%= form.label :intstrument_state, t("states.good"), class: "mr-2" %>
+      </div>
+      <div class="mt-2">
+        <%= form.radio_button :intstrument_state, "normal" %>
+        <%= form.label :intstrument_state, t("states.normal"), class: "mr-2" %>
+      </div>
+      <div class="mt-2">
+        <%= form.radio_button :intstrument_state, "damaged" %>
+        <%= form.label :intstrument_state, t("states.damaged"), class: "mr-2" %>
+      </div>
+      <div class="mt-2">
+        <%= form.radio_button :intstrument_state, "broken" %>
+        <%= form.label :intstrument_state, t("states.broken"), class: "mr-2" %>
+      </div>
+      <div class="mt-2">
+        <%= form.radio_button :intstrument_state, "in_service" %>
+        <%= form.label :intstrument_state, t("states.in_service"), class: "mr-2" %>
+      </div>
+    </div>
+
+    <div class="mb-5">
+      <%= form.label "#{ t :leave_comment }", class: "font-bold" %>
+      <%= form.text_area :comment, class: "mt-2 w-full rounded-lg border-gray-300" %>
+    </div>
+
+  <%= form.hidden_field :instrument_id, value: params[:instrument_id] %>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+
+
+    <div class="my-5">
+        <%= form.label t :images %>
+        <%= form.file_field :images, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", multiple: true %>
+    </div>
+
+
+  <div class="inline">
+    <%= form.submit "#{ t :create_act }", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+
+  <div>
+    <%= link_to "#{t :back}", '/', class: "mt-2 rounded-lg py-3 px-5 bg-gray-100 inline-block font-medium"  %>
+  </div>
+<% end %>
+</div>
+

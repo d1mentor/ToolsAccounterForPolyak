@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  closed_at: 2023-02-03
+  closed: false
+  user_id: 1
+
+two:
+  closed_at: 2023-02-03
+  closed: false
+  user_id: 1

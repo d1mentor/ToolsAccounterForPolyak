@@ -1,0 +1,47 @@
+<%= form_with(model: act, class: "contents") do |form| %>
+  <% if act.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(act.errors.count, "error") %> prohibited this act from being saved:</h2>
+
+      <ul>
+        <% act.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label t :instrument_state %>
+    <%= form.select :intstrument_state, options_for_select(Instrument.states.keys.map { |state| [t("states.#{state}"), state] }, selected: form.object.intstrument_state.presence || :good), {}, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label t :images %>
+    <%= form.file_field :images, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", multiple: true %>
+  </div>
+
+
+  <div class="my-5">
+    <%= form.label t :instrument %>
+    <%= form.collection_select :instrument_id, Instrument.all, :id, :name, { include_blank: false }, { class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label t :user %>
+    <%= form.collection_select :user_id, User.all, :id, :name, { include_blank: false }, { class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" } %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label t :comment %>
+    <%= form.text_field :comment, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline">
+  <% if action_name == "new" %>
+    <%= form.submit "#{t :create} #{ t :act }", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <% else %>
+    <%= form.submit "#{ t :update } #{ t :act }", class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <% end %>
+  </div>
+<% end %>

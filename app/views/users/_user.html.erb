@@ -1,0 +1,32 @@
+<div id="<%= dom_id user %>">
+  <div class="rounded-lg bg-white shadow-lg p-6 mt-3">
+  <div class="flex items-center mb-4">
+    <div class="w-1/5">
+    <% if user.avatar.present? %>
+      <img src="<%= user.avatar.url %>" class="w-full rounded-lg shadow">
+    <% else %>
+      <img src="/default_avatar.png" class="w-full rounded-lg shadow">
+    <% end %>
+    </div>
+    <div class="w-4/5 ml-6">
+      <h2 class="text-2xl font-bold mb-2"><%= user.name %></h2>
+      <p class="text-gray-700 text-lg mb-2"><%= user.email %></p>
+      <% if user.instruments.size > 0 %>
+        <p class="text-gray-700 text-lg mb-2"><%= t :responsible_for %> <%= user.instruments.size %> <%= t :instrument %></p>
+      <% end %>
+      <p class="text-gray-700 text-lg mb-2"><%= t :phone_number %>: <%= user.phone_number %></p>
+      <p class="text-gray-700 text-lg mb-2"><%= t :role %>: <%= t("roles.#{user.role}") %></p>
+      <% if action_name == "show" && current_user.admin? %>
+        <p class="text-gray-700 text-lg mb-2"><%= t :password %>: <%= user.psw %></p>
+      <% end %>
+      <% if action_name != "show" %>
+        <%= link_to "#{ t :show }", user, class: "rounded-lg py-3 px-5 bg-gray-100 mt-2 inline-block font-medium" %>
+        <% if current_user.admin? %>
+          <%= link_to "#{ t :edit }", edit_user_path(user), class: "rounded-lg py-3 mt-2 px-5 bg-gray-100 inline-block font-medium" %>
+        <% end %>  
+        <hr class="mt-6">
+      <% end %>
+    </div>
+  </div>
+</div>
+</div>

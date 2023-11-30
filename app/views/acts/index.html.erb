@@ -1,0 +1,39 @@
+<div class="w-full">
+  <% if notice.present? %>
+    <p class="py-2 px-3 bg-green-50 mb-5 text-green-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+  <% end %>
+
+  <div class="flex justify-between items-center">
+    <h1 class="font-bold text-4xl"><%= t :acts %></h1>
+    <%= link_to "#{t :create}", new_act_path, class: "rounded-lg py-3 px-5 bg-blue-600 text-white block font-medium" %>
+  </div>
+
+<div class="bg-white rounded-lg shadow-lg p-6 mt-3 mb-3 visible sm:invisible sm:absolute sm:z-10">
+    <% @acts.each do |act| %>
+    <div class="border-b-2 py-3 px-6 text-left inline-flex items-center w-full flex-wrap">
+      <%= image_tag(act.instrument.images.first.thumb.url, class: "w-16 h-16 rounded-lg") if act.instrument.images.first %>&nbsp;&nbsp;<%= link_to "#{act.instrument.name}", act_path(act), class: "text-blue-500 text-xl" %>&nbsp;
+	  <%= link_to "#{ act.created_at.strftime('%d.%m.%Y %H:%M') }", act_path(act), class: "text-blue-500 text-xl" %>&nbsp;
+	  <%= link_to "#{act.user.name}", act_path(act), class: "text-blue-500 text-xl" %>&nbsp;
+    </div><br>
+    <% end %>
+    </div>
+
+<div class="container w-full mx-auto px-2 mt-5 invisible absolute sm:visible sm:relative sm:z-20">
+<div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+				<thead>
+					<tr>
+						<th data-priority="1"><%= t :instrument%></th>
+						<th data-priority="2"><%= t :state %></th>
+						<th data-priority="3"><%= t :user %></th>
+						<th data-priority="4"><%= t :date %></th>
+					</tr>
+				</thead>
+				<tbody>
+					<%= render @acts %>
+				</tbody>
+			</table>
+		</div>
+		<!--/Card-->
+	</div>
+	<!--/container-->

@@ -1,0 +1,15 @@
+    <h3 class="text-xl font-semibold">ProfistyleTools for Skill</h3>
+    <ul>
+      <li class="py-2"><a href="/dashboard" class="text-blue-500 hover:text-blue-800"><%= t :dashboard %></a></li>
+      <li class="py-2"><a href="/my_profile" class="text-blue-500 hover:text-blue-800"><%= t :profile %></a></li>
+      <li class="py-2"><a href="/acts" class="text-blue-500 hover:text-blue-800"><%= t :acts %></a></li>
+      <li class="py-2"><a href="/instruments" class="text-blue-500 hover:text-blue-800"><%= t :instruments %></a></li>
+      <li class="py-2"><a href="/users" class="text-blue-500 hover:text-blue-800"><%= t :users %></a></li>
+      <li class="py-2"><a href="/users/sign_out" class="text-blue-500 hover:text-blue-800"><%= t :sign_out %></a></li>
+    </ul>
+    <h3 class="text-xl font-semibold">Languages</h3>
+    <ul>
+      <li class="py-2"><%= link_to "English", set_locale_path(:en), class: 'text-blue-500 hover:text-blue-800' %></li>
+      <li class="py-2"><%= link_to "Polski", set_locale_path(:pl), class: 'text-blue-500 hover:text-blue-800' %></li>
+      <li class="py-2"><%= link_to "Русский", set_locale_path(:ru), class: 'text-blue-500 hover:text-blue-800' %></li>
+    </ul>

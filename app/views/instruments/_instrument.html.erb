@@ -1,0 +1,25 @@
+<tr class="hover:bg-gray-100 cursor-pointer" onclick="location.href='<%= instrument_path(instrument) %>';">
+        <td class="py-3 px-6 text-left whitespace-nowrap inline-flex items-center">
+        <% if instrument.images.any? %>
+          <%= image_tag(instrument.images.first.thumb.url, class: "w-10 h-10 rounded-lg shadow") %>&nbsp;&nbsp;&nbsp;
+        <% end %>
+        <%= instrument.name %>
+        <% if instrument.last_act && instrument.last_act.user && action_name != "show" %>
+          <span class="text-sm text-gray-500">&nbsp;&nbsp;<%= "#{ t :now_the_user } #{instrument.last_act.user.name}" %></span>
+        <% end %>
+        </td>
+        <td class="py-3 px-6 text-left">
+          <% state_color = case instrument.state.downcase
+                            when "good" then "green"
+                            when "normal" then "green"
+                            when "damaged" then "orange"
+                            when "broken" then "red"
+                            when "in_service" then "black"
+                            else "gray"
+                          end %>
+          <span class="px-2 py-1 rounded-full font-medium text-white" style="background-color: <%= state_color %>"><%= t("states.#{instrument.state}") %></span>
+        </td>
+        <td class="py-3 px-6 text-center">
+          <span class="font-medium"><%= instrument.price %> <%= instrument.price_currency %></span>
+        </td>
+      </tr>

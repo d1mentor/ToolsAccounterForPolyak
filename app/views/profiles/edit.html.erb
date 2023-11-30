@@ -1,0 +1,15 @@
+<div>
+  <h1 class="font-bold text-4xl"><%= t :change_my_avatar %></h1>
+</div>
+
+<%= form_for @user, :url => {:controller => "profiles", :action => "update"} do |f| %>
+  <div class="mb-4">
+    <%= f.label t :avatar, class: "" %>
+    <%= f.file_field :avatar, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full", autofocus: true, required: true %>
+  </div>
+
+  <div class="flex items-center justify-between">
+    <%= f.submit "#{ t :update_avatar }", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+    <%= link_to "#{ t :back }", "/my_profile", class: "inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" %>
+  </div>
+<% end %>

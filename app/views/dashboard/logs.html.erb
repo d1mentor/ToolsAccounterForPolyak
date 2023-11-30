@@ -1,0 +1,38 @@
+<div class="container w-full mx-auto px-2 mt-5">
+    <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+    <h2 class="text-xl font-semibold mb-4"><%= t :logs %></h2>
+			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+				<thead>
+					<tr>
+						<th data-priority="1"><%= t :whois %></th>
+						<th data-priority="2"><%= t :action %></th>
+						<th data-priority="3"><%= t :changes %></th>
+					</tr>
+				</thead>
+				<tbody>
+    <% @logs.each do |user| %>
+      <% if user.values.first.action == "create" %>
+        <tr class="bg-green-100 text-green-900">
+          <td class="py-3 px-6 text-left whitespace-nowrap align-top"><%= user.keys.first %> <br> <%= user.values.first.created_at %> <br> <%= user.values.first.remote_address %></td>
+          <td class="py-3 px-6 text-left align-top"><%= user.values.first.action %> <%= user.values.first.auditable_type %></td>
+          <td class="py-3 px-6 text-left"><%= user.values.first.audited_changes.map {|k,v| "#{k}: #{v}"}.join("<br>").html_safe %></td>
+        </tr>
+      <% elsif user.values.first.action == "update" %>
+        <tr class="bg-yellow-100 text-yellow-900">
+          <td class="py-3 px-6 text-left whitespace-nowrap align-top"><%= user.keys.first %> <br> <%= user.values.first.created_at %> <br> <%= user.values.first.remote_address %></td>
+          <td class="py-3 px-6 text-left align-top"><%= user.values.first.action %> <%= user.values.first.auditable_type %></td>
+          <td class="py-3 px-6 text-left"><%= user.values.first.audited_changes.map {|k,v| "#{k}: #{v}"}.join("<br>").html_safe %></td>
+        </tr>
+      <% elsif user.values.first.action == "destroy" %>
+        <tr class="bg-red-100 text-red-900">
+          <td class="py-3 px-6 text-left whitespace-nowrap align-top"><%= user.keys.first %> <br> <%= user.values.first.created_at %> <br> <%= user.values.first.remote_address %></td>
+          <td class="py-3 px-6 text-left align-top"><%= user.values.first.action %> <%= user.values.first.auditable_type %></td>
+          <td class="py-3 px-6 text-left"><%= user.values.first.audited_changes.map {|k,v| "#{k}: #{v}"}.join("<br>").html_safe %></td>
+        </tr>
+        <% end %>
+        <% end %>
+</tbody>
+			</table>
+		</div>
+		<!--/Card-->
+	</div>

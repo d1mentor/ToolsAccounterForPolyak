@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  tariff_id: 1
+  name: MyString
+  contact_email: MyString
+  contact_phone: MyString
+  active: false
+
+two:
+  tariff_id: 1
+  name: MyString
+  contact_email: MyString
+  contact_phone: MyString
+  active: false

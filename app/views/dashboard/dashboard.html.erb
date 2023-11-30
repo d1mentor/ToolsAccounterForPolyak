@@ -1,0 +1,51 @@
+<% if notice.present? %>
+    <p class="py-2 px-3 bg-red-50 mb-5 text-red-500 font-medium rounded-lg inline-block" id="notice"><%= notice %></p>
+<% end %>
+
+<div class="px-4 py-8 mx-auto max-w-7xl sm:px-6 lg:px-8 rounded-lg bg-white shadow-lg p-6 mt-3 mb-6">
+  <h2 class="text-xl font-bold text-gray-900"><%= t :dashboard_stats %></h2>
+  <p><%= t :total_instruments_price %>: <%= @total_price %></p>
+  <p><%= t :instruments_count %>: <%= Instrument.all.size %></p>
+  <p><%= t :instruments_by_state %>:</p>
+  <p class="ml-2"><%= t("states.good") %>: <%= Instrument.where(state: "good").size %></p>
+  <p class="ml-2"><%= t("states.normal") %>: <%= Instrument.where(state: "normal").size %></p>
+  <p class="ml-2"><%= t("states.damaged") %>: <%= Instrument.where(state: "damaged").size %></p>
+  <p class="ml-2"><%= t("states.broken") %>: <%= Instrument.where(state: "broken").size %></p>
+  <p class="ml-2"><%= t("states.in_service") %>: <%= Instrument.where(state: "in_service").size %></p>
+  <p><%= t :users_count %>: <%= User.all.size %></p>
+  <p><%= t :acts_count %>: <%= Act.all.size %></p>
+</div>
+
+<div class="bg-white rounded-lg shadow-lg p-6 mt-3 mb-3 visible sm:invisible sm:absolute sm:z-10">
+    <h2 class="text-xl font-bold text-gray-900"><%= t :dashboard_head %></h2>
+    <% @acts.each do |act| %>
+    <% if act.previous_act && act.intstrument_state != act.previous_act.intstrument_state %>
+    <div class="border-b-2 py-3 px-6 text-left whitespace-nowrap inline-flex items-center w-full">
+      <%= image_tag(act.instrument.images.first.thumb.url, class: "w-16 h-16 rounded-lg") if act.instrument.images.first %>&nbsp;&nbsp;<%= link_to "#{act.instrument.name} - #{ act.created_at.strftime('%d.%m.%Y %H:%M') } - #{act.user.name}", act_path(act), class: "text-blue-500 text-xl" %>
+    </div><br>
+    <% end %>
+    <% end %>
+    </div>
+
+<div class="container w-full mx-auto px-2 mt-5 invisible absolute sm:visible sm:relative sm:z-20">
+<div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
+			<table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+				<thead>
+					<tr>
+						<th data-priority="1"><%= t :instrument%></th>
+						<th data-priority="2"><%= t :state %></th>
+						<th data-priority="3"><%= t :user %></th>
+						<th data-priority="4"><%= t :date %></th>
+					</tr>
+				</thead>
+				<tbody>
+      <% @acts.each do |act| %>
+        <% if act.previous_act && act.intstrument_state != act.previous_act.intstrument_state %>
+          <%= render act %>
+        <% end %>
+      <% end %>
+    </tbody>
+			</table>
+		</div>
+		<!--/Card-->
+	</div>

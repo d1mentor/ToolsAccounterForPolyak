@@ -1,0 +1,83 @@
+<%= form_with(model: instrument, class: "contents") do |form| %>
+  <% if instrument.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-lg mt-3">
+      <h2><%= pluralize(instrument.errors.count, "error") %> prohibited this instrument from being saved:</h2>
+
+      <ul>
+        <% instrument.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+ <div class="my-5">
+  <%= form.label t :state %>
+  <%= form.select :state, options_for_select(Instrument.states.keys.map { |state| [t("states.#{state}"), state] }, selected: form.object.state.presence || :good), {}, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+</div>
+
+
+
+  <div class="my-5">
+    <%= form.label t :name %>
+    <%= form.text_field :name, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+  <%= form.label t :images %>
+  <%= form.file_field :images, multiple: true, class: "mb-3 block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  
+  <div class="flex flex-wrap justify-center sm:justify-start">
+  <% instrument.images.each do |image| %>
+    <div class="relative w-32 h-32 mb-2 mr-2">
+      <%= hidden_field :instrument, :images, multiple: true, value: image.identifier %>
+      <%= image_tag image.url, class: "w-full h-full" %>
+      <span class="absolute top-2 right-3 bg-white p-2 rounded-full text-gray-500 cursor-pointer hover:text-red-500" data-image-id="<%= image.identifier %>" data-turbo="false">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </span>
+    </div>
+  <% end %>
+</div>
+
+  </div>
+
+
+  <div class="my-5">
+    <%= form.label t :price %>
+    <%= form.number_field :price, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="my-5">
+    <%= form.label t :price_currency %>
+    <%= form.text_field :price_currency, class: "block shadow rounded-md border border-gray-200 outline-none px-3 py-2 mt-2 w-full" %>
+  </div>
+
+  <div class="inline">
+  <% if action_name == "new" %>
+    <%= form.submit "#{ t :create } #{ t :instrument }",class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <% else %>
+    <%= form.submit "#{ t :update } #{ t :instrument }",class: "rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer" %>
+  <% end %>
+  </div>
+<% end %>
+
+<script>
+document.addEventListener("turbo:load", () => {
+  const deleteIcons = document.querySelectorAll("[data-image-id]");
+
+  deleteIcons.forEach((icon) => {
+    icon.addEventListener("click", () => {
+      const imageId = icon.getAttribute("data-image-id");
+      const hiddenField = document.querySelector(`input[value="${imageId}"]`);
+      if (hiddenField) {
+        const parentDiv = icon.closest(".relative");
+        parentDiv.parentNode.removeChild(parentDiv);
+        hiddenField.parentNode.removeChild(hiddenField);
+      }
+    });
+  });
+});
+
+</script>

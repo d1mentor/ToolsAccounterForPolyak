@@ -1,0 +1,33 @@
+<tr class="hover:bg-gray-100" onclick="location.href='<%= act_path(act) %>';">
+        <td class="py-4 px-6">
+          <% if act.instrument %>
+            <div class="flex items-center">
+              <% if act.instrument.images.any? %>
+                <%= image_tag(act.instrument.images.first.thumb.url, class: 'w-8 h-8 rounded-full inline-block mr-2') %>
+              <% end %>
+              <span class="text-gray-900 font-medium text-md"><%= act.instrument.name %></span>
+            </div>
+          <% else %>
+            <h2><%= t :no_instrument %></h2>
+          <% end %>
+        </td>
+        <td class="py-4 px-6">
+          <span class="px-2 py-1 rounded-full font-medium text-white
+                       <%= case act.intstrument_state.downcase
+                           when "good" then "bg-green-700"
+                           when "normal" then "bg-green-700"
+                           when "damaged" then "bg-orange-700"
+                           when "broken" then "bg-red-700"
+                           when "in_service" then "bg-black"
+                           else "bg-gray-500"
+                         end %>">
+            <%= t("states.#{act.intstrument_state}") %>
+          </span>
+        </td>
+        <td class="py-4 px-6">
+          <span class="text-gray-900 font-medium text-md"><%= act.user.name if act.user %></span>
+        </td>
+        <td class="py-4 px-6">
+          <span class="text-gray-500 text-sm"><%= act.created_at.strftime('%d.%m.%Y %H:%M') %></span>
+        </td>
+      </tr>
